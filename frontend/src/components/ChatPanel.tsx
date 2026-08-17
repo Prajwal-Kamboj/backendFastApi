@@ -8,6 +8,7 @@ export default function ChatPanel() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [model, setModel] = useState(DEFAULT_MODEL)
+  const [agentMode, setAgentMode] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
@@ -27,7 +28,7 @@ export default function ChatPanel() {
     setLoading(true)
 
     try {
-      const { reply } = await aiApi.chat({ messages: next, model })
+      const { reply } = await aiApi.chat({ messages: next, model, agent_mode: agentMode })
       setMessages([...next, { role: 'assistant', content: reply }])
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Unknown error')
@@ -42,6 +43,7 @@ export default function ChatPanel() {
       send()
     }
   }
+  
 
   return (
     <div className="panel">
@@ -53,6 +55,14 @@ export default function ChatPanel() {
             value={model}
             onChange={(e) => setModel(e.target.value)}
           />
+        </label>
+        <label className="toggle">
+          <input
+            type="checkbox"
+            checked={agentMode}
+            onChange={(e) => setAgentMode(e.target.checked)}
+          />
+          Agent mode
         </label>
         <button
           className="btn btn-ghost"
@@ -69,13 +79,13 @@ export default function ChatPanel() {
         )}
         {messages.map((m, i) => (
           <div key={i} className={`bubble bubble-${m.role}`}>
-            <span className="bubble-label">{m.role === 'user' ? 'You' : 'AI'}</span>
+            <span className="bubble-label">{m.role === 'user' ? 'You' : agentMode ? 'Agent' : 'AI'}</span>
             <pre className="bubble-text">{m.content}</pre>
           </div>
         ))}
         {loading && (
           <div className="bubble bubble-assistant">
-            <span className="bubble-label">AI</span>
+            <span className="bubble-label">{agentMode ? 'Agent' : 'AI'}</span>
             <span className="typing-dots"><span /><span /><span /></span>
           </div>
         )}
@@ -87,7 +97,11 @@ export default function ChatPanel() {
         <textarea
           className="chat-input"
           rows={3}
-          placeholder="Type a message… (Enter to send, Shift+Enter for newline)"
+          placeholder={
+            agentMode
+              ? 'Search the customer database for Acme Corp and return 5 results.'
+              : 'Type a message… (Enter to send, Shift+Enter for newline)'
+          }
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}

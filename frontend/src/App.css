@@ -129,6 +129,18 @@ body { background: var(--bg); }
   font-size: 0.85rem;
 }
 
+.toggle {
+  cursor: pointer;
+  user-select: none;
+  margin-right: auto;
+}
+
+.toggle input {
+  accent-color: var(--accent);
+  width: 16px;
+  height: 16px;
+}
+
 /* ── Inputs ──────────────────────────────────────────────────────────────── */
 .model-input,
 .question-input {

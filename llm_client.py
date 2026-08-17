@@ -23,12 +23,23 @@ def get_model(model: str):
 
 
 def _as_text(message) -> str:
+    """Return plain text from a LangChain message or raw content blocks."""
     text = getattr(message, "text", None)
     if isinstance(text, str) and text:
         return text
-    content = message.content
+    content = getattr(message, "content", message)
     if isinstance(content, str):
         return content
+    if isinstance(content, list):
+        parts = []
+        for block in content:
+            if isinstance(block, str):
+                parts.append(block)
+            elif isinstance(block, dict) and isinstance(block.get("text"), str):
+                parts.append(block["text"])
+        joined = "".join(parts)
+        if joined:
+            return joined
     return str(content)
 
 

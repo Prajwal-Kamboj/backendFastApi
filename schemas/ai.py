@@ -9,6 +9,7 @@ class Message(BaseModel):
 class ChatRequest(BaseModel):
     messages: list[Message]
     model: str = "gemini-3.6-flash"
+    agent_mode: bool = False
 
 
 class ChatResponse(BaseModel):

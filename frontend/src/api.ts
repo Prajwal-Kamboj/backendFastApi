@@ -10,6 +10,7 @@ export interface Message {
 export interface ChatRequest {
   messages: Message[]
   model?: string
+  agent_mode?: boolean
 }
 
 export interface ChatResponse {
