@@ -8,7 +8,7 @@ class Message(BaseModel):
 
 class ChatRequest(BaseModel):
     messages: list[Message]
-    model: str = "llama3.2"
+    model: str = "gemini-3.6-flash"
 
 
 class ChatResponse(BaseModel):
@@ -18,7 +18,7 @@ class ChatResponse(BaseModel):
 
 class SummarizeRequest(BaseModel):
     text: str
-    model: str = "llama3.2"
+    model: str = "gemini-3.6-flash"
 
 
 class SummarizeResponse(BaseModel):
@@ -29,7 +29,7 @@ class SummarizeResponse(BaseModel):
 class AskRequest(BaseModel):
     context: str
     question: str
-    model: str = "llama3.2"
+    model: str = "gemini-3.6-flash"
 
 
 class AskResponse(BaseModel):

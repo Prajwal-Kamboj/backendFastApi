@@ -1,6 +1,5 @@
 from fastapi import APIRouter, HTTPException
-
-import ollama_client
+import llm_client
 from schemas.ai import (
     AskRequest,
     AskResponse,
@@ -18,7 +17,7 @@ async def chat(request: ChatRequest):
     """Multi-turn conversation with the model."""
     try:
         messages = [m.model_dump() for m in request.messages]
-        reply = await ollama_client.chat(messages, request.model)
+        reply = await llm_client.chat(messages, request.model)
         return ChatResponse(reply=reply, model=request.model)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -29,7 +28,7 @@ async def summarize(request: SummarizeRequest):
     """Summarize a block of text."""
     try:
         prompt = f"Summarize the following text concisely:\n\n{request.text}"
-        summary = await ollama_client.generate(prompt, request.model)
+        summary = await llm_client.generate(prompt, request.model)
         return SummarizeResponse(summary=summary, model=request.model)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -45,7 +44,7 @@ async def ask(request: AskRequest):
             f"Question: {request.question}\n\n"
             f"Answer:"
         )
-        answer = await ollama_client.generate(prompt, request.model)
+        answer = await llm_client.generate(prompt, request.model)
         return AskResponse(answer=answer, model=request.model)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

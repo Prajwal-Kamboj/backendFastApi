@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { aiApi } from '../api'
 
-const DEFAULT_MODEL = 'llama3.2'
+const DEFAULT_MODEL = 'gemini-3.6-flash'
 
 export default function SummarizePanel() {
   const [text, setText] = useState('')

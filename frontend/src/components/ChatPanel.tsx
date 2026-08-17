@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { aiApi } from '../api'
 import type { Message } from '../api'
 
-const DEFAULT_MODEL = 'llama3.2'
+const DEFAULT_MODEL = 'gemini-3.6-flash'
 
 export default function ChatPanel() {
   const [messages, setMessages] = useState<Message[]>([])

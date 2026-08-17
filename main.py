@@ -1,7 +1,12 @@
 import logging
 
+from pathlib import Path
+
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+load_dotenv(Path(__file__).resolve().parent / ".env")
 
 from middlewares import RequestLoggingMiddleware
 from routers import ai_router
@@ -11,7 +16,7 @@ logging.basicConfig(
     format="%(asctime)s  %(levelname)-8s  %(name)s  %(message)s",
 )
 
-app = FastAPI(title="AI API", description="Local AI API powered by Ollama")
+app = FastAPI(title="AI API", description="AI API powered by Gemini")
 
 # ── Middlewares ────────────────────────────────────────────────────────────────
 app.add_middleware(RequestLoggingMiddleware)

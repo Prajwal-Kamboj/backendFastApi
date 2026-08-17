@@ -1,0 +1,10 @@
+1. What is a token, in one sentence a backend engineer would accept?
+    - A token is the unit of cost of precessing an invocation of the model. 
+2. Context window vs max_tokens: which one limits input, which one limits output, and which is billed?
+    - Context window limits input, max tokens limits limits both, and tokens are billed, context window is the limit of a session. 
+3. Why is temperature=0 still not a unit test?
+    -  Temperature 0 reduces randomness; it does not make the API deterministic or the output a stable assertion target.
+4. In google_genai:gemini-3.6-flash, what is the provider and what is the model?
+    - google_genai and gemini-3.6-flash is the model
+5. Your FastAPI app already calls Ollama. Name one reason to keep LangChain’s init_chat_model instead of a raw HTTP client.
+    -  one interface for invoke / stream / tools / structured output, and you can swap

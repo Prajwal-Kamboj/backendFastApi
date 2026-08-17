@@ -20,7 +20,7 @@ export default function App() {
       <header className="app-header">
         <div className="app-logo">
           <span className="logo-icon">⚡</span>
-          <span className="logo-text">Ollama UI</span>
+          <span className="logo-text">Gemini UI</span>
         </div>
         <nav className="tab-nav">
           {TABS.map((t) => (
