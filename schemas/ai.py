@@ -12,9 +12,16 @@ class ChatRequest(BaseModel):
     agent_mode: bool = False
 
 
+class UIComponent(BaseModel):
+    id: str  # "list" for now
+    title: str | None = None
+    items: list[str] = []
+
+
 class ChatResponse(BaseModel):
     reply: str
     model: str
+    component: UIComponent | None = None
 
 
 class SummarizeRequest(BaseModel):

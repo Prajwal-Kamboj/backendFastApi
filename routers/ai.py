@@ -18,11 +18,12 @@ async def chat(request: ChatRequest):
     """Multi-turn conversation with the model, or the search agent when agent_mode is on."""
     try:
         messages = [m.model_dump() for m in request.messages]
+        component = None
         if request.agent_mode:
-            reply = await spawn_agent(messages, request.model)
+            reply, component = await spawn_agent(messages, request.model)
         else:
             reply = await llm_client.chat(messages, request.model)
-        return ChatResponse(reply=reply, model=request.model)
+        return ChatResponse(reply=reply, model=request.model, component=component)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

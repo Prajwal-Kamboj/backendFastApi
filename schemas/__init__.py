@@ -6,12 +6,14 @@ from .ai import (
     Message,
     SummarizeRequest,
     SummarizeResponse,
+    UIComponent,
 )
 
 __all__ = [
     "Message",
     "ChatRequest",
     "ChatResponse",
+    "UIComponent",
     "SummarizeRequest",
     "SummarizeResponse",
     "AskRequest",

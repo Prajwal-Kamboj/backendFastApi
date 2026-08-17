@@ -2,9 +2,16 @@ const BASE = '/api'
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
+export interface UIComponent {
+  id: 'list' | string
+  title?: string | null
+  items: string[]
+}
+
 export interface Message {
   role: 'user' | 'assistant'
   content: string
+  component?: UIComponent | null
 }
 
 export interface ChatRequest {
@@ -16,6 +23,7 @@ export interface ChatRequest {
 export interface ChatResponse {
   reply: string
   model: string
+  component?: UIComponent | null
 }
 
 export interface SummarizeRequest {

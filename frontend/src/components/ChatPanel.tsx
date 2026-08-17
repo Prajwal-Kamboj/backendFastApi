@@ -1,6 +1,22 @@
 import { useState, useRef, useEffect } from 'react'
 import { aiApi } from '../api'
-import type { Message } from '../api'
+import type { Message, UIComponent } from '../api'
+
+function ResultList({ component }: { component: UIComponent }) {
+  return (
+    <div className="result-list">
+      {component.title && <h3 className="result-list-title">{component.title}</h3>}
+      <ol className="result-list-items">
+        {component.items.map((item, i) => (
+          <li key={i} className="result-list-item">
+            <span className="result-list-index">{i + 1}</span>
+            <span className="result-list-label">{item}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  )
+}
 
 const DEFAULT_MODEL = 'gemini-3.6-flash'
 
@@ -28,8 +44,13 @@ export default function ChatPanel() {
     setLoading(true)
 
     try {
-      const { reply } = await aiApi.chat({ messages: next, model, agent_mode: agentMode })
-      setMessages([...next, { role: 'assistant', content: reply }])
+      const payload = next.map(({ role, content }) => ({ role, content }))
+      const { reply, component } = await aiApi.chat({
+        messages: payload,
+        model,
+        agent_mode: agentMode,
+      })
+      setMessages([...next, { role: 'assistant', content: reply, component }])
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Unknown error')
     } finally {
@@ -80,7 +101,10 @@ export default function ChatPanel() {
         {messages.map((m, i) => (
           <div key={i} className={`bubble bubble-${m.role}`}>
             <span className="bubble-label">{m.role === 'user' ? 'You' : agentMode ? 'Agent' : 'AI'}</span>
-            <pre className="bubble-text">{m.content}</pre>
+            {m.content && <pre className="bubble-text">{m.content}</pre>}
+            {m.role === 'assistant' && m.component?.id === 'list' && m.component.items.length > 0 && (
+              <ResultList component={m.component} />
+            )}
           </div>
         ))}
         {loading && (
