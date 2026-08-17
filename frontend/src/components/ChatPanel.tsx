@@ -123,7 +123,7 @@ export default function ChatPanel() {
           rows={3}
           placeholder={
             agentMode
-              ? 'Search the customer database for Acme Corp and return 5 results.'
+              ? 'Search the web for LangChain agents and return 5 results.'
               : 'Type a message… (Enter to send, Shift+Enter for newline)'
           }
           value={input}
